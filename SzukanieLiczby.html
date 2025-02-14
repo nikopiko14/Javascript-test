@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Cantora+One&family=Crete+Round:ital@0;1&family=Farro:wght@300;400;500;700&family=Rubik+Spray+Paint&family=Spectral+SC:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Szukanie liczby</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: "Cantora One", serif;
+            font-weight: 400;
+            font-style: normal;
+            background-color: aquamarine;
+        }
+        #liczba {
+            width: 250px;
+            height: auto;
+            font-size: 150%;
+            color: red;
+        }
+        body {
+            font-size: 150%;
+        }
+        button {
+            height: 50px;
+            width: 200px;
+            font-size: 150%;
+            transition: 0.4s;
+        }
+        button:hover {
+            width: 400px;
+            height: 100px;
+            font-size: 200%;
+            background-color: blue;
+            color: white;
+            border: 5px solid black;
+            border-radius: 25px;
+        }
+        button:active {
+            background-color: aqua;
+            transition: 0.1s;
+            width: 380px;
+            height: 90px;
+            font-size: 180%;
+        }
+        #image {
+            display: none;
+            width: 20%;
+            height: auto;
+            margin: auto auto;
+        }
+        #restart {
+            height: 40px;
+            width: 150px;
+            font-size: 130%;
+            transition: 0.4s;
+        }
+        #restart:hover {
+            width: 200px;
+            height: 50px;
+            font-size: 140%;
+            background-color: rgb(255, 0, 0);
+            color: white;
+            border: 4px solid black;
+            border-radius: 25px;
+        }
+        #restart:active {
+            background-color: rgb(255, 196, 0);
+            transition: 0.1s;
+            width: 380px;
+            height: 90px;
+            font-size: 180%;
+        }
+        #kula {
+            color: rgb(59, 131, 214);
+            position: absolute;
+            top: 1100px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto auto;
+            cursor: pointer;
+            transition: 0.1s;
+            font-size: 500%;
+            padding: 10px;
+        }
+        #kula:active {
+            color: rgb(51, 84, 122);
+        }
+    </style>
+</head>
+<body>
+    <i class="fa-solid fa-hashtag"></i> Podaj liczbę 1-100: <br><input type="number" id="liczba" required max="10" min="1" placeholder="Podaj Liczbę">
+    <br><br><button onclick="liczbacheck()">Sprawdź</button>
+    <br><br><button id="restart" onclick="restart()">Zrestartuj</button>
+    <h1 id="info"></h1>
+    <h2 id="podpowiedz"></h2>
+    <h3 id="prob"></h3>
+    <img id="image" src="kciuk.jpg"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <i class="fa-regular fa-futbol" id="kula" onclick="przemiescKule()"></i>
+    <script>
+        const szukana = 67;
+        let LiczbaProb = 1;
+        let KulaKlik = 1;
+
+        function liczbacheck() {
+            let liczba = document.getElementById('liczba').value;
+            if (liczba == szukana) {
+                document.getElementById('info').innerHTML = "Poprawna liczba!";
+                document.getElementById('prob').innerHTML = "Liczba prób: " + LiczbaProb;
+                document.getElementById('podpowiedz').innerHTML = "Idealnie!";
+                document.getElementById('image').style.display = "block";
+                LiczbaProb++;
+            } 
+            else {
+                document.getElementById("info").innerHTML = "Spróbuj jeszcze raz";
+                document.getElementById("prob").innerHTML = "Liczba prób: " + LiczbaProb;
+                document.getElementById('image').style.display = "none";
+                LiczbaProb++;
+                if (liczba > szukana) {
+                    document.getElementById('podpowiedz').innerHTML = "Podaj mniejszą liczbę";
+                }
+                if (liczba < szukana) {
+                 document.getElementById('podpowiedz').innerHTML = "Podaj większą liczbę";
+                }
+            }
+            if(liczba > 100){
+                document.getElementById("info").innerHTML = "Miało być do 100!";
+            }
+            if(liczba < 1){
+                document.getElementById("info").innerHTML = "Miało być od 1!";
+            }
+            if(liczba == ""){
+                document.getElementById("info").innerHTML = "Wpisz coś...";
+            }
+        }
+        function restart() {
+            document.getElementById("info").innerHTML = "";
+            document.getElementById("prob").innerHTML = "";
+            document.getElementById('image').style.display = "none";
+            document.getElementById('podpowiedz').innerHTML = "";
+            document.getElementById('kula').innerHTML = "";
+            document.getElementById('kula').style.top = "1100px";
+            document.getElementById('kula').style.left = "0";
+            document.getElementById('kula').style.right = "0";
+            document.getElementById('kula').style.bottom = "0";
+            KulaKlik = 0;
+            LiczbaProb = 0;
+        }
+        function przemiescKule() {
+            const maxWidth = window.innerWidth - 100;
+            const maxHeight = window.innerHeight - 100;
+            const randomX = Math.floor(Math.random() * maxWidth);
+            const randomY = Math.floor(Math.random() * maxHeight);
+            const kula = document.getElementById("kula");
+            kula.style.left = randomX + "px";
+            kula.style.top = randomY + "px";
+            if(KulaKlik < 100){
+                document.getElementById('kula').innerHTML = "";
+                KulaKlik++;
+            }
+            else{
+                document.getElementById('kula').innerHTML = "Po co?";
+            }
+        }
+    </script>
+</body>
+</html>
